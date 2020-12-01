@@ -1,0 +1,52 @@
+﻿@model ExamViewModel
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h2 class="modal-title">Create Exam</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    @Html.AntiForgeryToken()
+    <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <div class="modal-body form-horizontal">
+            <div class="form-group row">
+
+                @Html.LabelFor(model => model.Article.Title, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-12">
+                    @Html.DropDownList("ArticleTitle")
+                </div>
+            </div>
+            <div id="textId">
+                <span>@Model.Article.Content</span>
+            </div>
+            @{int i = 0;}
+            @foreach (var item in Model.Questions)
+            {
+                i++;
+        <div class="form-group row">
+            <b> @Html.LabelFor(model => item.Question, new { @class = "col-sm-10 col-form-label" })@(" " + i)</b>
+            <div class="col-sm-12">
+                @Html.TextAreaFor(model => item.Question, new { @class = "col-sm-12 col-form-label" })
+            </div>
+        </div> foreach (var choice in item.Choices)
+        {
+        <div class="form-group row">
+            <div class="col-sm-12">
+
+                <b>@choice.Name</b><input type="text" asp-for="@choice.Text" placeholder="Enter Name" class="form-control" />
+            </div>
+        </div> }
+       <span>Doğru Cevap => </span> @Html.DropDownList("Choices")}
+            <!--Modal Footer Start-->
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-success relative" id="btnSubmit" type="submit">
+                    <i class="loader"></i>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/js/createquestion.js"></script>
+
